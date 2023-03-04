@@ -1,6 +1,7 @@
 package org.sphedev;
 
 import java.util.function.Function;
+import java.util.function.BiFunction;
 public class Main {
     protected  static class MyMath{
         public static Integer triple(Integer x){
@@ -36,7 +37,12 @@ public class Main {
         System.out.println(func(MyMath::triple,6));
 
         // So far we have work with functions that take 1 argument can we do better?
+        BiFunction<Integer,Integer,Integer> add = (x,y)-> x+y;
 
+        System.out.println(add.apply(30,10));
+        // You also use Integer::sum
+        BiFunction<Integer,Integer,Integer> sum = Integer::sum;
+        System.out.println(sum.apply(22,23));
 
     }
     public static Integer func(Function<Integer,Integer> res,Integer x){
