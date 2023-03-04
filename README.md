@@ -1,5 +1,5 @@
 # Functional Programming with Java
-
+![image](https://images.idgesg.net/images/article/2019/11/jw_lambda_expressions_lambda_symbol_circuits_puzzle_pieces_by_greyfebruary_gettyimages-511803821_2400x1600-100817056-large.jpg?auto=webp&quality=85,70)
 Functional programming is a programming paradigm that is gaining popularity due to its emphasis on write code that is declarative, concise a and easy to reason about. In functional programming functions are treated as first-class citizens, meaning that they can be pass around as arguments, return as results and stored as variables.
 
 Java incorporated many features of functional programming since the release of Java 8 , such `lambda expression` , `method references` , `streams` and `functional interfaces` 
