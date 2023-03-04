@@ -44,6 +44,7 @@ public class Main {
         BiFunction<Integer,Integer,Integer> sum = Integer::sum;
         System.out.println(sum.apply(22,23));
 
+
     }
     public static Integer func(Function<Integer,Integer> res,Integer x){
         return res.apply(x);
