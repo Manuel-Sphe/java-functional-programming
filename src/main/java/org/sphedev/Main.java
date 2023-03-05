@@ -44,7 +44,36 @@ public class Main {
         BiFunction<Integer,Integer,Integer> sum = Integer::sum;
         System.out.println(sum.apply(22,23));
 
+        System.out.println(func((Integer x) -> x*x,5));
+        // here we have a function that returns a function
+        NoArgsFunction<NoArgsFunction<String>> crateGreater = () -> () -> "Hello Functional";
+        NoArgsFunction<String> greet = crateGreater.apply();// This returns a func with we need to call apply again
+        System.out.println(greet.apply());
 
+        // Can define the func here again
+        // add(x,y) = x+y
+        // sub(x,y) = x-y
+        // mul(x,y) = x*y
+        // choice(func,'+')
+
+        Function<Character,BiFunction<Integer,Integer,Integer>> choice = (ch) -> (x,y) -> {
+            int res = 0;
+            if (ch == '+')
+                res = x+y;
+            else if(ch=='-')
+                res =  x-y;
+            else if(ch == '*')
+                res = x*y;
+            return  res;
+        };
+        BiFunction<Integer,Integer,Integer> addition = choice.apply('+'); // Perform addition
+        System.out.println("Results : "+addition.apply(3,5));
+
+        BiFunction<Integer,Integer,Integer>  sub = choice.apply('-'); // Perform addition
+        System.out.println("Results : "+sub.apply(3,5));
+
+        BiFunction<Integer,Integer,Integer> mul = choice.apply('*'); // Perform addition
+        System.out.println("Results : "+mul.apply(3,5));
     }
     public static Integer func(Function<Integer,Integer> res,Integer x){
         return res.apply(x);
