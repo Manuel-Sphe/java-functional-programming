@@ -80,8 +80,8 @@ public class Main {
         BiFunction<Float,Float,Float> divide = (x,y) -> x/y;
         // will use this function to test if y==0 .
         Function<BiFunction<Float,Float,Float>, BiFunction<Float,Float,Float> >
-                dvideTest = (someFunction) -> (x,y) -> y==0 ? 0f : someFunction.apply(x,y);
-        BiFunction<Float,Float,Float> divideSafe  = dvideTest.apply(divide); // pass the func to test
+                divideTest = (someFunction) -> (x,y) -> y==0 ? 0f : someFunction.apply(x,y);
+        BiFunction<Float,Float,Float> divideSafe  = divideTest.apply(divide); // pass the func to test
         Float value = divideSafe.apply(10f,3f); // Cast the args to floats
         Float val = divideSafe.apply(8f,0f);
 
