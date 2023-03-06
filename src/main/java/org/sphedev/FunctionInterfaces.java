@@ -1,6 +1,6 @@
 package org.sphedev;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
+import java.util.function.BinaryOperator;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -9,8 +9,8 @@ import java.util.stream.Collectors;
 public class FunctionInterfaces {
 
     protected static class Person{
-        private  String name;
-        private  Integer age;
+        private final String name;
+        private  final Integer age;
 
         public Person(String name, Integer age){
             this.name = name;
@@ -80,7 +80,7 @@ public class FunctionInterfaces {
                                    .toList();
         cout.accept(even);
 
-        List<String> words = Arrays.asList("hello","functional","programming","is", "cool");
+        List<String> words = Arrays.asList("hello","functional","programming","is", "cool","programming","programming");
 
         Function<Integer,Predicate<String>> lengthTest = (minLength) -> (string) -> string.length() > minLength;
 
@@ -88,5 +88,70 @@ public class FunctionInterfaces {
                                       .filter(lengthTest.apply(3)) // pass any length with to check
                                       .toList();
         cout.accept(longWords);
+
+        // Reduce
+
+        BinaryOperator<Integer> getSum  = Integer::sum;
+        Integer sum  = sqr.stream()
+                          .reduce(0, getSum);
+
+        cout.accept("The sum is "+sum);
+
+        //Collectors
+
+        // Make a set
+        Set<String> set  = words
+                           .stream()
+                           .filter(lengthTest.apply(4))
+                           .collect(Collectors.toSet());
+        cout.accept(set); // no duplicates
+
+        // Join strings
+        String myStr = set
+                       .stream()
+                       .filter(lengthTest.apply(4))
+                       .collect(Collectors.joining("--"));// join the distinct words from the set.
+        cout.accept(myStr);
+
+        //count
+        Long count = set
+                .stream()
+                .filter(lengthTest.apply(4))
+                .count(); // collect(Collectors.counting()) will work
+
+        cout.accept(count);
+
+        // Map - group by
+
+        Map<Integer,List<String> > wordDict = words
+                                              .stream()
+                                              .collect(Collectors.groupingBy(String::length));
+
+        cout.accept(wordDict);
+
+        // Partitions a group by true of false
+
+        Map<Boolean, List<String > >splits  = words
+                                            .stream()
+                                            .collect(Collectors.partitioningBy(lengthTest.apply(5)));
+
+        cout.accept(splits);
+
+        // Challenge
+
+        List<Person> people = Arrays.asList(
+                new Person("Brandon", 23),
+                new Person("Hank",43),
+                new Person("Jenna", 23 ),
+                new Person("Jack",27),
+                new Person("Veronica",56)
+        );
+
+        // Get a list that gets people's names
+        List<String> names = people
+                            .stream()
+                            .map(x -> x.name)
+                            .collect(Collectors.toList());
+        cout.accept(names);
     }
 }
