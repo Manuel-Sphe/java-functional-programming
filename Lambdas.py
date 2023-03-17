@@ -1,11 +1,4 @@
-
-add = lambda a,b : a + b
-sub = lambda a,b : a - b
-div = lambda a,b : a / b
-mul = lambda a,b : a *b
-
-map = {"+":add, '-':sub, '*':mul,'/':div}
-
+map = {'+':lambda a,b : a + b, '-':lambda a,b : a - b, '*':lambda a,b : a *b,'/':lambda a,b : a / b}
 try:
   x = eval(input("Enter the value of x : "))
   y = eval(input("Enter the value of y : "))
