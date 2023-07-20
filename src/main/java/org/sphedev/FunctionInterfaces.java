@@ -115,8 +115,35 @@ public class FunctionInterfaces {
         cout.accept(splits);
 
         // Challenge
+        printPeopleAndStudents();
+        parallelStreams();
 
-        List<Person> people = List.of(
+    }
+
+    /**
+     *
+     * @param studentsList a collection of students
+     * @param <V> has two types Person and Student
+     */
+    private static <V extends Student> void
+    printFromList(Collection<V> studentsList){
+
+        System.out.println("Name of these morons : ");
+        studentsList.stream()
+                        .map(V::personToString)
+                        .forEach(System.out::println);
+
+        System.out.println("\nStudents :");
+        studentsList.stream()
+                .map(V::toString)
+                .forEach(System.out::println);
+    }
+
+    private static void printPeopleAndStudents(){
+
+        System.out.println("\n People Names \n");
+
+        Collection<Person> people = List.of(
                 new Person("Brandon", 23),
                 new Person("Hank",43),
                 new Person("Jenna", 23 ),
@@ -124,15 +151,14 @@ public class FunctionInterfaces {
                 new Person("Veronica",56)
         );
 
-        // Get a list thaqt gets people's names
-        List<String> names = people
-                            .stream()
-                            .map(Person::getName)
-                            .toList();
+        Collection<Student> students = List.of(
+                new Student("Brandon", 23 , "brand@gmail.com"),
+                new Student("Hank",43 , "hanks@icloud.com"),
+                new Student("Jenna", 23 , "jennajay@gmail.com")
+        );
 
-        names.forEach(System.out::println);
+        printFromList(students);
 
-        parallelStreams();
 
     }
 
