@@ -13,15 +13,15 @@ Java incorporated many features of functional programming since the release of J
     4. Lambda expressions provide a way to define anonymous functions that can be used as parameters or return types in a method. They allow you to write code that is more concise and readable, specially when it comes to collections and streams .
     5. Lambda functions are not straight first-class functions in a sense but they provide much of the same functionality.
     6. Example of lambda expression in Java
-        1. In this example the lambda expression `n -> n%2 == 0` to filter even numbers from a list 
-    
+        1. In this example the lambda expression `n -> n%2 == 0` to filter even numbers from a list
+
     ```java
-    List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5);
+    List<Integer> numbers = List.of(1, 2, 3, 4, 5);
     
-    // using a lambda expression to filter even numbers
+    /* using a lambda expression to filter even numbers */
     List<Integer> evenNumbers = numbers.stream()
                                        .filter(n -> n % 2 == 0)
-                                       .collect(Collectors.toList());
+                                       .collect.toList();
     ```
     
 2. `Functional Interfaces` : Is an interface that contains only one abstract method. Functional interfaces are used extensively in Java’s functional programming features such as Lambda expressions and method references. 
