@@ -7,40 +7,10 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class FunctionInterfaces {
+    private static final List<String> WORDS =
+            List.of("hello","functional","programming"
+                    ,"is", "cool","programming","programming");
 
-    protected static class Person{
-        private final String name;
-        private  final Integer age;
-
-        public Person(String name, Integer age){
-            this.name = name;
-            this.age = age;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public String toString(){
-            return this.name +" "+this.age;
-        }
-    }
-
-    protected static class DataLoader{
-        public final NoArgsFunction<Person> select ;
-
-        public DataLoader(Boolean isDevelopment){
-            this.select = isDevelopment ? this::loadPersonFake : this::loadPersonReal;
-        }
-        private Person loadPersonReal(){
-            System.out.println("Loading person....");
-            return new Person("Real Person",23);
-        }
-        private Person loadPersonFake(){
-            System.out.println("Loading person....");
-            return new Person("Fake Person",47);
-        }
-    }
     public static void main(String[] args) {
 
         Consumer<Object> cout = System.out::println; // Change <String> to <Object> to take more values
@@ -58,16 +28,16 @@ public class FunctionInterfaces {
 
         DataLoader dataLoader = new DataLoader(IS_DEV);
         cout.accept(dataLoader.select.apply()); // Removed the .toString() for Employee it will Automatically get called
-        
+
         // Let's Demo Maps
 
-        List<Integer>  nums = Arrays.asList(1,2,3,4,5,6,7);
+        List<Integer>  nums = List.of(1,2,3,4,5,6,7);
 
         //1. By pass a lambda expression
         List<Integer> sqr = nums.stream()
                                 .map(x->x*x)
-                                .toList(); // can also use .collet(Collectors.toList())
-        
+                                .toList(); // can also use .collect(Collectors.toList())
+
         cout.accept(sqr);
 
         // 2. Using Function interface
@@ -87,11 +57,10 @@ public class FunctionInterfaces {
                                    .toList();
         cout.accept(even);
 
-        List<String> words = Arrays.asList("hello","functional","programming","is", "cool","programming","programming");
 
         Function<Integer,Predicate<String>> lengthTest = (minLength) -> (string) -> string.length() > minLength;
 
-        List<String> longWords = words.stream()
+        List<String> longWords = WORDS.stream()
                 .filter(lengthTest.apply(3)) // pass any length with to check
                 .toList();
         cout.accept(longWords);
@@ -107,7 +76,7 @@ public class FunctionInterfaces {
         //Collectors
 
         // Make a set
-        Set<String> set  = words
+        Set<String> set  = WORDS
                 .stream()
                 .filter(lengthTest.apply(4))
                 .collect(Collectors.toSet());
@@ -130,7 +99,7 @@ public class FunctionInterfaces {
 
         // Map - group by
 
-        Map<Integer,List<String> > wordDict = words
+        Map<Integer,List<String> > wordDict = WORDS
                                               .stream()
                                               .collect(Collectors.groupingBy(String::length));
 
@@ -138,7 +107,7 @@ public class FunctionInterfaces {
 
         // Partitions a group by true of false
 
-        Map<Boolean, List<String > >splits  = words
+        Map<Boolean, List<String > >splits  = WORDS
                                             .stream()
                                             .collect(Collectors.
                                                     partitioningBy(lengthTest.apply(5)));
@@ -155,7 +124,7 @@ public class FunctionInterfaces {
                 new Person("Veronica",56)
         );
 
-        // Get a list that gets people's names
+        // Get a list thaqt gets people's names
         List<String> names = people
                             .stream()
                             .map(Person::getName)
@@ -163,18 +132,20 @@ public class FunctionInterfaces {
 
         names.forEach(System.out::println);
 
+        parallelStreams();
 
-        //Parallel Streams
-        // processes the words in a non-deterministic order
-        List<String> processedWords = words
-                .parallelStream()
-                .map((word)->{
-                    cout.accept("To Uppercase "+word);
-                    return word.toUpperCase();
-                })
-                .map((word)->word+"!")
-                .toList();
+    }
 
-        cout.accept(processedWords);
+    private static void parallelStreams(){
+
+        System.out.println("\nParallel Streams : ");
+
+        WORDS.parallelStream()
+                .map(StringBuffer::new)
+                .map(s -> s.append("!"))
+                .map(StringBuffer::toString)
+                .forEach(System.out::println);
+
+
     }
 }
