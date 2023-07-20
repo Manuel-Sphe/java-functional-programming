@@ -16,6 +16,11 @@ public class FunctionInterfaces {
             this.name = name;
             this.age = age;
         }
+
+        public String getName() {
+            return name;
+        }
+
         public String toString(){
             return this.name +" "+this.age;
         }
@@ -37,9 +42,11 @@ public class FunctionInterfaces {
         }
     }
     public static void main(String[] args) {
+
         Consumer<Object> cout = System.out::println; // Change <String> to <Object> to take more values
         // 3 args
         TriFunction<Integer,Integer,Integer,Integer> add = (x,y,z) -> x + y + z;
+
         cout.accept("The sum of 3 numbers is "+add.apply(3,2,6));
 
         // No args
@@ -85,8 +92,8 @@ public class FunctionInterfaces {
         Function<Integer,Predicate<String>> lengthTest = (minLength) -> (string) -> string.length() > minLength;
 
         List<String> longWords = words.stream()
-                                      .filter(lengthTest.apply(3)) // pass any length with to check
-                                      .toList();
+                .filter(lengthTest.apply(3)) // pass any length with to check
+                .toList();
         cout.accept(longWords);
 
         // Reduce
@@ -101,9 +108,9 @@ public class FunctionInterfaces {
 
         // Make a set
         Set<String> set  = words
-                           .stream()
-                           .filter(lengthTest.apply(4))
-                           .collect(Collectors.toSet());
+                .stream()
+                .filter(lengthTest.apply(4))
+                .collect(Collectors.toSet());
         cout.accept(set); // no duplicates
 
         // Join strings
@@ -133,13 +140,14 @@ public class FunctionInterfaces {
 
         Map<Boolean, List<String > >splits  = words
                                             .stream()
-                                            .collect(Collectors.partitioningBy(lengthTest.apply(5)));
+                                            .collect(Collectors.
+                                                    partitioningBy(lengthTest.apply(5)));
 
         cout.accept(splits);
 
         // Challenge
 
-        List<Person> people = Arrays.asList(
+        List<Person> people = List.of(
                 new Person("Brandon", 23),
                 new Person("Hank",43),
                 new Person("Jenna", 23 ),
@@ -150,8 +158,23 @@ public class FunctionInterfaces {
         // Get a list that gets people's names
         List<String> names = people
                             .stream()
-                            .map(x -> x.name)
-                            .collect(Collectors.toList());
-        cout.accept(names);
+                            .map(Person::getName)
+                            .toList();
+
+        names.forEach(System.out::println);
+
+
+        //Parallel Streams
+        // processes the words in a non-deterministic order
+        List<String> processedWords = words
+                .parallelStream()
+                .map((word)->{
+                    cout.accept("To Uppercase "+word);
+                    return word.toUpperCase();
+                })
+                .map((word)->word+"!")
+                .toList();
+
+        cout.accept(processedWords);
     }
 }
